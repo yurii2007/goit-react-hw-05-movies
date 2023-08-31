@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { getFilmByQuery } from 'utils/tmdbApi';
+import MovieList from 'components/MovieList/MovieList';
+import Form from 'components/Form/Form';
 
 const Movies = () => {
-  const [input, setInput] = useState('');
   const [films, setFilms] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
-  const location = useLocation();
 
   useEffect(() => {
     if (!query) return;
@@ -17,39 +17,14 @@ const Movies = () => {
     })();
   }, [query]);
 
-  const handleChange = e => {
-    setInput(e.target.value);
-  };
-
-  const onFormSubmit = evt => {
-    evt.preventDefault();
-    setSearchParams({ query: evt.target.query.value });
-    setInput('');
+  const onFormSubmit = q => {
+    setSearchParams({ query: q });
   };
 
   return (
     <>
-      <form onSubmit={onFormSubmit}>
-        <input
-          type="text"
-          name="query"
-          onChange={handleChange}
-          value={input}
-          required
-        />
-        <button type="submit">Search</button>
-      </form>
-      {films.length > 0 && (
-        <ul>
-          {films.map(el => (
-            <li key={el.id}>
-              <Link to={`/movies/${el.id}`} state={{ from: location }}>
-                {el.original_title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      <Form onSubmit={onFormSubmit} />
+      {films.length > 0 && <MovieList films={films} />}
     </>
   );
 };

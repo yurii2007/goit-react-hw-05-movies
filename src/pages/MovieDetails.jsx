@@ -3,6 +3,8 @@ import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { getFilmById } from 'utils/tmdbApi';
 import { InfoWrapper } from './MovieDetails.styled';
 
+const DEFAULT_IMAGE = 'https://w7.pngwing.com/pngs/116/765/png-transparent-clapperboard-computer-icons-film-movie-poster-angle-text-logo-thumbnail.png'
+
 const MovieDetails = () => {
   const [film, setFilm] = useState(null);
   const { movieId } = useParams();
@@ -22,7 +24,7 @@ const MovieDetails = () => {
       {film && (
         <InfoWrapper>
           <img
-            src={`https://image.tmdb.org/t/p/original${film.poster_path}`}
+            src={film.poster_path ? `https://image.tmdb.org/t/p/original${film.poster_path}` : DEFAULT_IMAGE}
             alt={film.original_title}
           />
           <div>

@@ -1,5 +1,5 @@
+import MovieList from 'components/MovieList/MovieList';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { getTrendingFilms } from 'utils/tmdbApi';
 
 export const Home = () => {
@@ -17,13 +17,7 @@ export const Home = () => {
   return (
     <>
       <h1>Trending Today</h1>
-      <ul>
-        {films.map(el => (
-          <li key={el.id}>
-            <Link to={`movies/${el.id}`}>{el.original_title}</Link>
-          </li>
-        ))}
-      </ul>
+      <MovieList films={films} />
     </>
   );
 };

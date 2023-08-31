@@ -17,7 +17,6 @@ const Cast = () => {
   useEffect(() => {
     (async () => {
       const getFilmCast = await getCast(movieId);
-      getFilmCast.cast.length = 10;
       setFilmCast(getFilmCast.cast);
     })();
   }, [movieId]);
