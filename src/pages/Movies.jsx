@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { getFilmByQuery } from 'utils/tmdbApi';
 
 const Movies = () => {
@@ -7,6 +7,7 @@ const Movies = () => {
   const [films, setFilms] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query');
+  const location = useLocation();
 
   useEffect(() => {
     if (!query) return;
@@ -42,7 +43,7 @@ const Movies = () => {
         <ul>
           {films.map(el => (
             <li key={el.id}>
-              <Link to={`/movies/${el.id}`}>{el.original_title}</Link>
+              <Link to={`/movies/${el.id}`} state={{from: location}} >{el.original_title}</Link>
             </li>
           ))}
         </ul>

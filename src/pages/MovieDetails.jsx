@@ -1,11 +1,13 @@
-import { Suspense, useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { getFilmById } from 'utils/tmdbApi';
 import { InfoWrapper } from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const [film, setFilm] = useState(null);
   const { movieId } = useParams();
+  const location = useLocation();
+  const backLink = useRef(location.state?.from || '/');
 
   useEffect(() => {
     (async () => {
@@ -16,7 +18,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      <Link to="/">Go Back</Link>
+      <Link to={backLink.current}>Go Back</Link>
       {film && (
         <InfoWrapper>
           <img
